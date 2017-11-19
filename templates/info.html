@@ -1,0 +1,153 @@
+<!DOCTYPE HTML>
+<html>
+<title>用户信息 — 一个Python后台开发兼爬虫个人博客网站</title>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<meta name="keywords" content="个人博客,陈政伟个人博客,个人博客系统,陈政伟">
+<meta name="description" content="陈政伟个人博客 — 一个Python后台开发兼爬虫个人博客网站。">
+<LINK rel="Bookmark" href="/static/img/favicon.ico" >
+<LINK rel="Shortcut Icon" href="/static/img/favicon.ico" />
+
+<!--[if lt IE 9]>
+<script type="text/javascript" src="/staticRes/js/html5shiv.js"></script>
+<script type="text/javascript" src="/staticRes/js/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css" />
+<script type="text/javascript" src="/static/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/css/usercenter-info.css"/>
+<link rel="stylesheet" type="text/css" href="/static/plugin/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="/static/plugin/Hui-iconfont/1.0.8/iconfont.min.css" />
+<link rel="stylesheet" type="text/css" href="/static/css/common.css" />
+<link rel="stylesheet" type="text/css" href="/static/plugin/pifu/pifu.css" />
+<link rel="stylesheet" type="text/css" href="/static/plugin/wangEditor/css/wangEditor.min.css">
+<!--[if lt IE 9]>
+<link href="/staticRes/lib/h-ui/css/H-ui.ie.css" rel="stylesheet" type="text/css" />
+<![endif]-->
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } function showSide(){$('.navbar-nav').toggle();}</script>
+</head>
+<body>
+<header class="navbar-wrapper">
+    <div class="navbar navbar-fixed-top">
+        <div class="container cl">
+            <a class="navbar-logo hidden-xs" href="{% url 'index' %}">
+                <img class="logo" src="/static/img/logo3.jpg" alt="行走的技术鬼" />
+            </a>
+            <a class="logo navbar-logo-m visible-xs" href="{% url 'index' %}">行走的技术鬼</a>
+            <a aria-hidden="false" class="nav-toggle Hui-iconfont visible-xs" href="javascript:void(0);" onclick="showSide();">&#xe667;</a>
+            <nav class="nav navbar-nav nav-collapse w_menu" role="navigation">
+                <ul class="cl">
+                    <li > <a href="{% url 'index' %}" data-hover="首页">首页</a> </li>
+                    <li> <a href="{% url 'about' %}" data-hover="关于我">关于我</a> </li>
+                    <li> <a href="{% url 'sanyan' %}" data-hover="三言两语">三言两语</a> </li>
+                    <li class="active"><a href="{% url 'article:article_type' '1' %}" data-hover="学无止尽">学无止尽</a></li>
+
+                </ul>
+            </nav>
+           {% if request.user.is_authenticated %}
+                 <nav class="navbar-nav navbar-userbar hidden-xs hidden-sm " style="top: 0;">
+                <ul class="cl">
+
+
+                    <!--
+                    	作者：offline
+                    	时间：2017-11-16
+                    	描述：登录后进入
+                    	-->
+
+                    <li class="userInfo dropDown dropDown_hover">
+
+                            <a href="javascript:;" ><img class="avatar radius" src="{{ request.user.img }}" alt="头像 "></a>
+                            <ul class="dropDown-menu menu radius box-shadow">
+                                <li><a href="{% url 'userinfo:userinfo' %}">{{ request.user.username }}</a></li>
+                                <li><a href="{% url 'logout' %}">退出</a></li>
+                            </ul>
+
+
+                    </li>
+
+                </ul>
+            </nav>
+            {% else %}
+                <nav class="navbar-nav navbar-userbar hidden-xs hidden-sm " style="top: 0;">
+                <ul class="cl">
+
+                	<li> <a href="{% url 'login' %}" data-hover="登录">登录</a> </li>
+                </ul>
+            </nav>
+            {% endif %}
+
+        </div>
+    </div>
+</header>
+
+<!--导航条-->
+<nav class="breadcrumb">
+    <div class="container"> <i class="Hui-iconfont">&#xe67f;</i> <a href="{% url 'index' %}" class="c-primary">首页</a> <span class="c-gray en">&gt;</span>  <span class="c-gray">用户页</span> </div>
+</nav>
+
+<section class="container">
+    <div class="row">
+	 				
+	 			
+			 			<div class="col-md-3 col-sm-3 hidden-xs">
+			 				
+			 				<ul class="nav nav-pills nav-stacked">
+			 					<li class="active"><a href="{% url 'userinfo:upload' %}">&nbsp;&nbsp;修改头像</a></li>
+			                    <li><a href="{% url 'logout' %}">&nbsp;&nbsp;退出登录</a></li>
+			                    
+			 				</ul>
+			 				
+			 			</div>
+			 			<div class="col-md-8 col-sm-9 col-xs-12">
+			 				<div class="col-md-7 col-sm-7 col-xs-12">
+			 				    <form  id="upload_form" action="{% url 'userinfo:upload' %}"
+	                                  method="post" enctype="multipart/form-data">
+
+
+	                                <div class="form-group" >
+	                                    <label for="image" >修改头像</label>
+
+	                                        <input type="file" id="image_upload" name="file">
+
+	                                </div>
+                                    {% csrf_token %}
+				 				</form>
+
+
+
+
+	 					    </div>
+							<div class="col-md-4 col-sm-3 hidden-xs">
+								
+								<div class="form-group">
+								    <label for="exampleInputName">头&nbsp;&nbsp;&nbsp;像</label>
+								    <img src="{{ request.user.img }}" alt="image" class="img-thumbnail">
+								</div>
+							</div>		 			
+			 			</div>
+			 		
+	 			</div>
+</section>
+<footer class="footer mt-20">
+    <div class="container-fluid" id="foot">
+       <p>DesignerBy:陈政伟 <br>
+       </p>
+    </div>
+</footer>
+<script type="text/javascript" src="/static/plugin/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="/static/plugin/layer/3.0/layer.js"></script>
+<script type="text/javascript" src="/static/plugin/h-ui/js/H-ui.min.js"></script>
+<script type="text/javascript" src="/static/plugin/pifu/pifu.js"></script>
+<script type="text/javascript" src="/static/js/common.js"></script>
+<script> $(function(){ $(window).on("scroll",backToTopFun); backToTopFun(); });
+//　上传图片
+            $('#image_upload').on('change', function () {
+                $('#upload_form').submit()
+            })
+</script>
+</body>
+</html>
