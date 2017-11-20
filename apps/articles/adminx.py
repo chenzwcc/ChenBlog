@@ -12,5 +12,5 @@ class ArticleAdmin(object):
     search_fields = ['title', 'name', 'type', 'add_time', 'click_nums']
     # 添加过滤字段
     list_filter = ['title', 'name', 'type', 'click_nums', 'add_time']
-
+    style_fields = {'content': 'ueditor'}
 xadmin.site.register(Article, ArticleAdmin)

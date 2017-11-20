@@ -55,6 +55,8 @@ urlpatterns = [
     url(r"^sanyan/$", SanYanView.as_view(), name='sanyan'),
     # 文章
     url(r"^article/",include('articles.urls',namespace='article')),
+    # ueditor编辑器
+    url(r'^ueditor/', include('DjangoUeditor.urls' )),
 
 
 

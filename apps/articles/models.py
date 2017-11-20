@@ -1,7 +1,7 @@
 #coding=utf-8
 from datetime import datetime
 from django.db import models
-
+from DjangoUeditor.models import UEditorField
 # Create your models here.
 
 class Article(models.Model):
@@ -10,7 +10,10 @@ class Article(models.Model):
     """
     title = models.CharField(max_length=100,verbose_name=u'标题名')
     name = models.CharField(max_length=100,verbose_name=u'作者')
-    content = models.TextField(verbose_name=u'内容')
+    #content = models.TextField(verbose_name=u'内容')
+    content = UEditorField('内容', height=800, width=1000,
+                           default=u'', blank=True, imagePath="uploads/images/",
+                           toolbars='besttome', filePath='uploads/files/')
     type_id = models.IntegerField(default=1,verbose_name=u'文章类别ID')
     type = models.IntegerField(choices=((1,u'Python'),(2,u'Django'),(3,u'爬虫'),(4,u'Tornado'),(5,u'Flask'),(6,u'AI'),(7,u'数据库'),(8,u'其他')),verbose_name=u'文章类型')
     click_nums = models.IntegerField(default=0,verbose_name=u'浏览量')

@@ -95,7 +95,7 @@
 							<h2 class="c_titile">{{ article.title }}</h2>
 							<p class="box_c"><span class="d_time">发布时间：{{ article.add_time }}</span><span>编辑：<a href="{% url 'about' %}">{{ article.name }}</a></span><span>阅读（{{ article.click_nums }}）</span></p>
 							<ul class="infos">
-								     {{ article.content }}
+								     {% autoescape off %}{{ article.content }}{% endautoescape %}
 								
 							</ul>
 															
