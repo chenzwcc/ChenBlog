@@ -105,7 +105,7 @@
 						<p class="hits"><i class="Hui-iconfont" title="点击量">&#xe6c1;</i> {{ article.click_nums }}° </p>
 						<p class="commonts"><i class="Hui-iconfont" title="点击量">&#xe622;</i> <span class="cy_cmt_count">{{ article.get_comments_nums }}</span></p>
 					</div>
-					<div class="desc">{{ article.content|truncatechars:100|safe }}</div>
+					<div class="desc">{% autoescape off %}{{ article.content|striptags|safe|truncatechars:100|linebreaks }}{% endautoescape %}</div>
 				</li>
                 {% endfor %}
 				
