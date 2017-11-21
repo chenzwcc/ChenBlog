@@ -19,6 +19,7 @@ from django.conf.urls import include, url
 import xadmin
 from django.views.static import serve
 from ChenBlog.settings import MEDIA_ROOT
+from ChenBlog.settings import STATIC_ROOT
 
 from users.views import IndexView,LoginView,RegisterView,LogoutView,ResetView,ModifyView,ForgetView,ActiveUserView
 from users.views import AboutView,SanYanView
@@ -57,7 +58,13 @@ urlpatterns = [
     url(r"^article/",include('articles.urls',namespace='article')),
     # ueditor编辑器
     url(r'^ueditor/', include('DjangoUeditor.urls' )),
-
+    
+    # 配置static,解决debug为false时static路径设置无效
+    url(r'^static/(?P<path>.*)$', serve, {'document_root': STATIC_ROOT}),
 
 
 ]
+# 全局404页面配置
+handler404 = 'users.views.page_not_found'
+# 全局500页面配置
+handler500 = 'users.views.page_error'

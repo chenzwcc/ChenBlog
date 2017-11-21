@@ -26,9 +26,9 @@ sys.path.insert(0,os.path.join(BASE_DIR,'extra_apps'))
 SECRET_KEY = '9b6=yf@+8+gqq#rn5s#dvse^j6u=oz6fwy0x@#t+oc8@-3o8f5'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*',]
 
 
 # Application definition
@@ -122,13 +122,13 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS=[
     os.path.join(BASE_DIR,'static'),
 ]
-#STATIC_ROOT = os.path.join(BASE_DIR,'static')
+STATIC_ROOT = os.path.join(BASE_DIR,'static')
 
 
 EMAIL_HOST='smtp.sina.com'
 EMAIL_PORT=25
 EMAIL_HOST_USER='18279816872@sina.cn'
-EMAIL_HOST_PASSWORD='2552770507'#你的新浪邮箱密码
+EMAIL_HOST_PASSWORD='********'#你的新浪邮箱密码
 EMAIL_USER_TLS=False
 EMAIL_FROM='18279816872@sina.cn'
 
