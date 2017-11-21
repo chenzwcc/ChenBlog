@@ -11,6 +11,7 @@ from django.core.urlresolvers import reverse
 from django.views.generic.base import View
 from django.contrib.auth.hashers import make_password
 from django.http import HttpResponseRedirect
+from django.shortcuts import render_to_response
 
 from users.forms import RegisterForm,LoginForm,ForgetForm,ModifyPwdForm
 
