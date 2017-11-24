@@ -69,7 +69,7 @@ class RegisterView(View):
             user_message.message = u'欢迎注册陈政伟博客'
             user_message.save()
 
-            send_register_email(email, 'register')
+            send_register_email(email,DOMAIN_PREFIX ,'register')
             return render(request, 'send_success.html')
 
         else:
@@ -115,7 +115,7 @@ class ForgetView(View):
         forget_form=ForgetForm(request.POST)
         if forget_form.is_valid():
             email = request.POST.get('email', '')
-            send_register_email(email, 'forgetpwd')
+            send_register_email(email,DOMAIN_PREFIX, 'forgetpwd')
             return render(request, 'send_success.html')
         else:
             return render(request,'password-forget.html',{'forget_form':forget_form})
