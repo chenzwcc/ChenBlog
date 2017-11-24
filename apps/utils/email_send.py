@@ -17,7 +17,7 @@ def random_str(randomlength=8):
     return str
 
 
-def send_register_email(email, send_type='register'):
+def send_register_email(email,host, send_type='register'):
     email_record = EmailVerfyRecode()
     # 将给用户发的信息保存在数据库中
     code = random_str(8)
@@ -31,7 +31,7 @@ def send_register_email(email, send_type='register'):
 
     if send_type == "register":
         email_title = "陈政伟博客注册激活链接"
-        email_body = "请点击下面的链接激活你的账号:http://127.0.0.1:8000/active/{0}".format(code)
+        email_body = "请点击下面的链接激活你的账号:{0}/active/{1}".format(host,code)
         # 发送邮件
         send_status = send_mail(email_title, email_body, EMAIL_FROM, [email])
         if send_status:
@@ -39,7 +39,7 @@ def send_register_email(email, send_type='register'):
 
     elif send_type == "forgetpwd":
         email_title = "陈政伟博客密码重置链接"
-        email_body = "请点击下面的链接重置你的密码:http://127.0.0.1:8000/reset/{0}".format(code)
+        email_body = "请点击下面的链接重置你的密码:{0}/reset/{1}".format(host,code)
         # 发送邮件
         send_status = send_mail(email_title, email_body, EMAIL_FROM, [email])
         if send_status:
