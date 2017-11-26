@@ -7,6 +7,8 @@ from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
 from django.shortcuts import render
 from django.contrib.auth import authenticate,login,logout
+from django.contrib.auth.backends import ModelBackend
+
 from django.core.urlresolvers import reverse
 from django.views.generic.base import View
 from django.contrib.auth.hashers import make_password
@@ -24,6 +26,16 @@ from utils.qiniusdk import qiniu_upload_file
 
 from ChenBlog.settings import MEDIA_ROOT
 from config import DOMAIN_PREFIX
+
+
+class CustomBackend(ModelBackend):
+    def authenticate(self, username=None, password=None, **kwargs):
+        try:
+            user = UserProfile.objects.get(username=username)
+            if user.check_password(password):
+                return user
+        except Exception as e:
+            return None
 
 
 class IndexView(View):
@@ -52,7 +64,7 @@ class RegisterView(View):
         if pre_check:
             user_name=request.POST.get('username','')
             if UserProfile.objects.filter(username=user_name):
-                return render(request,'register.html',{'register_form':register_form,'msg':u'改名字已被使用'})
+                return render(request,'register.html',{'register_form':register_form,'msg':u'该名字已被使用'})
             email = request.POST.get('email','')
             if UserProfile.objects.filter(email=email):
                 return render(request,'register.html',{"register_form":register_form,'msg':u'该邮箱已被注册'})
@@ -64,13 +76,9 @@ class RegisterView(View):
             user_profile.password=make_password(pass_word)
             user_profile.save()
 
-            user_message = UserMessage()
-            user_message.user=user_profile.id
-            user_message.message = u'欢迎注册陈政伟博客'
-            user_message.save()
 
             send_register_email(email,DOMAIN_PREFIX ,'register')
-            return render(request, 'send_success.html')
+            return render(request, 'login.html')
 
         else:
             return render(request,'register.html',{'register_form':register_form})
@@ -214,3 +222,17 @@ class AboutView(View):
 class SanYanView(View):
     def get(self,request):
         return render(request,'ZaTan.html')
+    
+# 404
+def page_not_found(request):
+    response = render_to_response('404.html', {})
+    response.status_code = 404
+    return response
+
+
+# 500
+def page_error(request):
+    response = render_to_response('500.html', {})
+    response.status_code = 500
+    return response
+
